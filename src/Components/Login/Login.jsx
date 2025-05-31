@@ -1,6 +1,7 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../firebase/firebase.init";
 import { useState } from "react";
+import { signOut } from "firebase/auth/cordova";
 
 const Login = () => {
   const [user, setUser] = useState(null);
@@ -17,10 +18,26 @@ const Login = () => {
         console.log(error);
       });
   };
+  const handleLogout = () => {
+    signOut(auth)
+      .then((auth) => {
+        console.log(auth);
+        setUser(null);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div>
-      <h2>Please login</h2>
+      {/* <h2>Please login</h2>
       <button onClick={handleWithGoggle}>Sign In With Goggle</button>
+      <button onClick={handleLogout}>log out</button> */}
+      {user ? (
+        <button onClick={handleLogout}>log out</button>
+      ) : (
+        <button onClick={handleWithGoggle}>Sign In With Goggle</button>
+      )}
       {user && (
         <div>
           <h2>{user?.displayName}</h2>
